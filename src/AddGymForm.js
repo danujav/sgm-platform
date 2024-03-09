@@ -5,14 +5,30 @@ function AddGymForm() {
   const [gymCategory, setGymCategory] = useState("normal");
   const [gymLocation, setGymLocation] = useState("");
   const [gymName, setGymName] = useState("");
-  const [gymPhoto, setGymPhoto] = useState(null);
+  const [gymPhotoUrl, setGymPhoto] = useState([]);
   const [userId, setUserId] = useState(null); // State to store the user's ID
 
-  useEffect(() => {
-    // Retrieve the role from localStorage
+  const handleFileUpload = (e) => {
+    const files = e.target.files;
+    const photosArray = [];
+    for (let i = 0; i < files.length; i++) {
+      const reader = new FileReader();
+      reader.readAsDataURL(files[i]);
+      reader.onload = () => {
+        photosArray.push(reader.result);
+        if (photosArray.length === files.length) {
+          setGymPhoto(photosArray);
+        }
+      };
+      reader.onerror = (error) => {
+        console.error("Error: ", error);
+      };
+    }
+  };
+
+  useEffect(() => { 
     const role = localStorage.getItem("role");
 
-    // Fetch the user's ID based on the role
     const fetchUserId = async () => {
       try {
         const response = await fetch(
@@ -37,17 +53,21 @@ function AddGymForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Create form data to send to the backend
-    const formData = new FormData();
-    formData.append("gymCategory", gymCategory);
-    formData.append("gymLocation", gymLocation);
-    formData.append("gymName", gymName);
-    formData.append("gymPhoto", gymPhoto);
+    const gymData= {
+      userId,
+      gymCategory,
+      gymLocation,
+      gymName,
+      gymPhotoUrl
+    }
 
     try {
       const response = await fetch("http://localhost:3001/add-gym", {
         method: "POST",
-        body: formData,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(gymData),
       });
 
       if (response.ok) {
@@ -101,7 +121,7 @@ function AddGymForm() {
             type="file"
             id="gymPhoto"
             accept="image/*"
-            onChange={(e) => setGymPhoto(e.target.files[0])}
+            onChange={handleFileUpload}
           />
         </div>
         <div className="form-group">
