@@ -5,6 +5,7 @@ import {
   Routes,
   Route,
   useNavigate,
+  useLocation,
 } from "react-router-dom";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
@@ -21,16 +22,18 @@ import Supplier from "../src/pages/Supplier";
 
 function App() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const role = localStorage.getItem("role");
-    if (!role) {
+    if (!role && location.pathname !== "/register") {
       navigate("/login");
     }
   }, [navigate]);
 
   return (
     <Routes>
+      <Route path="/register" element={<RegisterForm />} />
       <Route
         path="/"
         element={localStorage.getItem("role") ? <MiniDrawer /> : <LoginForm />}
@@ -39,6 +42,7 @@ function App() {
         <Route path="/add-gyms" element={<AddGymForm />} />
         <Route path="/delete-gyms" element={<DeleteGymForm />} />
         <Route path="/update-gyms" element={<UpdateGymForm />} />
+        
         <Route path="*" element={<NoMatch />} />
       </Route>
     </Routes>
