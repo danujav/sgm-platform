@@ -13,6 +13,7 @@ function RegisterForm() {
   const [gymLocation, setGymLocation] = useState("");
   const [gymPhotos, setGymPhotos] = useState([]);
   const [gymCategory, setGymCategory] = useState("normal");
+  const [password, setPassword] = useState("");
 
   // Function to handle file upload and convert to base64
   const handleFileUpload = (e) => {
@@ -36,8 +37,8 @@ function RegisterForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if(userType==='member') {
-      setGymPhotos('');
+    if (userType === "member") {
+      setGymPhotos("");
     }
     const userData = {
       userType,
@@ -51,6 +52,7 @@ function RegisterForm() {
       gymCategory,
       gymLocation,
       gymPhotos,
+      password,
     };
 
     console.log(userData);
@@ -65,18 +67,18 @@ function RegisterForm() {
       });
 
       if (response.ok) {
-        setUserType('owner');
-          setNicNumber('');
-          setUsername('');
-          setFirstName('');
-          setSecondName('');
-          setLastName('');
-          setTelephone('');
-          setEmail('');
-          setGymLocation('');
-          setGymPhotos([]);
-          setGymCategory('normal');
-          
+        setUserType("owner");
+        setNicNumber("");
+        setUsername("");
+        setFirstName("");
+        setSecondName("");
+        setLastName("");
+        setTelephone("");
+        setEmail("");
+        // setGymLocation("");
+        // setGymPhotos([]);
+        // setGymCategory("normal");
+        setPassword("");
       } else {
         // Handle error, maybe show a message to the user
       }
@@ -156,7 +158,7 @@ function RegisterForm() {
                 onChange={(e) => setTelephone(e.target.value)}
               />
             </div>
-            <div className="form-group">
+            {/* <div className="form-group">
               <label htmlFor="gymLocation">Gym Location:</label>
               <input
                 type="text"
@@ -164,8 +166,8 @@ function RegisterForm() {
                 value={gymLocation}
                 onChange={(e) => setGymLocation(e.target.value)}
               />
-            </div>
-            <div className="form-group">
+            </div> */}
+            {/* <div className="form-group">
               <label htmlFor="gymPhotos">Gym Photos:</label>
               <input
                 type="file"
@@ -173,8 +175,8 @@ function RegisterForm() {
                 multiple
                 onChange={handleFileUpload}
               />
-            </div>
-            <div className="form-group">
+            </div> */}
+            {/* <div className="form-group">
               <label htmlFor="gymCategory">Gym Category:</label>
               <select
                 id="gymCategory"
@@ -185,7 +187,7 @@ function RegisterForm() {
                 <option value="medium">Medium</option>
                 <option value="luxury">Luxury</option>
               </select>
-            </div>
+            </div> */}
             <div className="form-group">
               <label htmlFor="email">Email:</label>
               <input
@@ -193,6 +195,15 @@ function RegisterForm() {
                 id="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="password">Password:</label>
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
           </>
@@ -251,6 +262,15 @@ function RegisterForm() {
                 id="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="password">Password:</label>
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
           </>
