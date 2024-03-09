@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./UpdateGymForm.css";
-import GymDetailsForm from './GymDetailsForm';
+import GymDetailsForm from "./GymDetailsForm";
 
 function GymUpdateForm() {
   const [gyms, setGyms] = useState([]);
@@ -16,39 +16,18 @@ function GymUpdateForm() {
   };
 
   useEffect(() => {
-    const fetchUserId = async () => {
-      const role = localStorage.getItem("role");
-
-      if (role) {
-        try {
-          const response = await fetch(
-            `http://localhost:3001/user-id?role=${role}`
-          );
-          if (response.ok) {
-            const data = await response.json();
-            return data.userId;
-          } else {
-            console.error("Failed to fetch user ID");
-            return null;
-          }
-        } catch (error) {
-          console.error("Error:", error);
-          return null;
-        }
-      } else {
-        console.error("Role not found in local storage");
-        return null;
-      }
-    };
-
-    const fetchGyms = async (userId) => {
+    const id = localStorage.getItem("userId");
+    setUserId(id);
+  
+    const fetchGyms = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3001/gyms?userId=${userId}`
+          `http://localhost:3001/gyms?userId=${id}`
         );
         if (response.ok) {
           const data = await response.json();
           setGyms(data);
+          console.log(data, 'data');
         } else {
           console.error("Failed to fetch gyms data");
         }
@@ -56,17 +35,12 @@ function GymUpdateForm() {
         console.error("Error fetching gyms:", error);
       }
     };
-
-    const loadData = async () => {
-      const userId = await fetchUserId();
-      if (userId) {
-        await fetchGyms(userId);
-      }
-    };
-
-    loadData();
+  
+    if (id) {
+      fetchGyms();
+    }
   }, []);
-
+  
   return (
     <div>
       <h2>Gym Update Form</h2>
@@ -89,7 +63,9 @@ function GymUpdateForm() {
       {selectedGym && (
         <div className="dialog-overlay">
           <div className="dialog">
-            <button className="close-btn" onClick={handleCloseDialog}>X</button>
+            <button className="close-btn" onClick={handleCloseDialog}>
+              X
+            </button>
             <GymDetailsForm gym={selectedGym} />
           </div>
         </div>

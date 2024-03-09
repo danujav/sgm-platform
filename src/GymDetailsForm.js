@@ -23,7 +23,7 @@ function GymDetailsForm({ gym }) {
         body: JSON.stringify(gymDetails), // Send the updated gym details in the request body
       });
       if (response.ok) {
-        console.log('Gym details updated successfully!');
+        alert('Update gym details sucess!')
         
       } else {
         console.error('Failed to update gym details.');

@@ -1,34 +1,86 @@
-import React, { useState, useEffect } from 'react';
-import './AddGymForm.css';
-import MapWithAddress from '../src/MapWithAddress';
+import React, { useState, useEffect } from "react";
+import "./AddGymForm.css";
+import MapWithAddress from "./MapWithAddress";
+
+// ------------
+import "./MapWithAddress.css";
+import MapView from "./MapView";
+import "./MapView.css";
+
+// -----------------
 
 function AddGymForm() {
-  const [gymCategory, setGymCategory] = useState('normal');
-  const [gymLocation, setGymLocation] = useState('');
-  const [gymName, setGymName] = useState('');
+  const [gymCategory, setGymCategory] = useState("normal");
+  const [gymLocation, setGymLocation] = useState("");
+  const [gymName, setGymName] = useState("");
   const [gymPhotoUrl, setGymPhoto] = useState([]);
   const [userId, setUserId] = useState(null);
 
-  useEffect(() => { 
-    const role = localStorage.getItem('role');
+  // -------------------------
+  const [address, setAddress] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [error, setError] = useState(null);
 
-    const fetchUserId = async () => {
+  const handleInputChange = async (event) => {
+    const inputAddress = event.target.value;
+    setAddress(inputAddress);
+    if (inputAddress.trim() !== "") {
+      // Fetch address from Nominatim API
       try {
-        const response = await fetch(`http://localhost:3001/user-id?role=${role}`);
+        const response = await fetch(
+          `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
+            inputAddress
+          )}&format=json&addressdetails=1`
+        );
         if (response.ok) {
           const data = await response.json();
-          setUserId(data.userId);
+          setSearchResults(data);
+          setError(null); // Reset error state
         } else {
-          console.error('Failed to fetch user ID');
+          setError("Failed to fetch address");
+          setSearchResults([]);
         }
       } catch (error) {
-        console.error('Error:', error);
+        console.error("Error fetching address:", error);
+        setError("Error fetching address");
+        setSearchResults([]);
       }
-    };
-
-    if (role) {
-      fetchUserId();
+    } else {
+      setSearchResults([]);
     }
+  };
+
+  const handleSelectAddress = (selectedAddress) => {
+    setAddress(selectedAddress);
+    setSearchResults([]);
+  };
+
+  // --------------------------
+
+  useEffect(() => {
+    const id = localStorage.getItem("userId");
+
+    setUserId(id);
+
+    // const fetchUserId = async () => {
+    //   try {
+    //     const response = await fetch(
+    //       `http://localhost:3001/user-id?userId=${id}`
+    //     );
+    //     if (response.ok) {
+    //       const data = await response.json();
+    //       setUserId(data.userId);
+    //     } else {
+    //       console.error("Failed to fetch user ID");
+    //     }
+    //   } catch (error) {
+    //     console.error("Error:", error);
+    //   }
+    // };
+
+    // if (id) {
+    //   fetchUserId();
+    // }
   }, []);
 
   const handleSubmit = async (e) => {
@@ -37,33 +89,33 @@ function AddGymForm() {
     const gymData = {
       userId,
       gymCategory,
-      gymLocation,
+      address,
       gymName,
-      gymPhotoUrl
+      gymPhotoUrl,
     };
 
     try {
-      const response = await fetch('http://localhost:3001/add-gym', {
-        method: 'POST',
+      const response = await fetch("http://localhost:3001/add-gym", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(gymData),
       });
 
       if (response.ok) {
-        alert('Gym added successfully!');
-        setGymCategory('normal');
-        setGymLocation('');
-        setGymName('');
-        setGymPhoto(null);
+        alert("Gym added successfully!");
+        setGymCategory("normal");
+        setGymLocation("");
+        setGymName("");
+        setGymPhoto([]);
       } else {
         const data = await response.json();
         alert(data.message);
       }
     } catch (error) {
-      console.error('Error:', error);
-      alert('An error occurred while adding the gym. Please try again later.');
+      console.error("Error:", error);
+      alert("An error occurred while adding the gym. Please try again later.");
     }
   };
 
@@ -80,7 +132,7 @@ function AddGymForm() {
         }
       };
       reader.onerror = (error) => {
-        console.error('Error: ', error);
+        console.error("Error: ", error);
       };
     }
   };
@@ -92,22 +144,24 @@ function AddGymForm() {
         fetchLocation(latitude, longitude);
       },
       (error) => {
-        console.error('Error getting current location:', error);
+        console.error("Error getting current location:", error);
       }
     );
   };
 
   const fetchLocation = async (latitude, longitude) => {
     try {
-      const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+      );
       if (response.ok) {
         const data = await response.json();
         setGymLocation(data.display_name);
       } else {
-        console.error('Failed to fetch location');
+        console.error("Failed to fetch location");
       }
     } catch (error) {
-      console.error('Error fetching location:', error);
+      console.error("Error fetching location:", error);
     }
   };
 
@@ -130,14 +184,36 @@ function AddGymForm() {
         <div className="form-group">
           <label htmlFor="gymLocation">Gym Location:</label>
           <div className="input-with-button">
-            <input
-              type="text"
-              id="gymLocation"
-              value={gymLocation}
-              onChange={(e) => setGymLocation(e.target.value)}
-              placeholder="Search location"
-            />
-            <button type="button" className="current-location-button" onClick={handleUseCurrentAddress}>use my current location📍</button>
+            {/*  */}
+            <div className="input-container">
+              <input
+                type="text"
+                placeholder="Type an address"
+                value={address}
+                onChange={handleInputChange}
+              />
+              <div className="address-options">
+                {searchResults.map((result) => (
+                  <div
+                    key={result.place_id}
+                    className="address-option"
+                    onClick={() => handleSelectAddress(result.display_name)}
+                  >
+                    {result.display_name}
+                  </div>
+                ))}
+              </div>
+              {error && <p className="error-message">{error}</p>}
+              {/* <MapView address={address} /> */}
+            </div>
+            {/*  */}
+            <button
+              type="button"
+              className="current-location-button"
+              onClick={handleUseCurrentAddress}
+            >
+              use my current location📍
+            </button>
           </div>
         </div>
         <div className="form-group">
@@ -159,7 +235,6 @@ function AddGymForm() {
             placeholder="Enter gym name"
           />
         </div>
-        <MapWithAddress />
         <button type="submit">Add Gym</button>
       </form>
     </div>

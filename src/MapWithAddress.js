@@ -1,27 +1,35 @@
-import React, { useState } from 'react';
-import './MapWithAddress.css';
+import React, { useState } from "react";
+import "./MapWithAddress.css";
+import MapView from "./MapView";
+import './MapView.css';
 
 function MapWithAddress() {
-  const [address, setAddress] = useState('');
-  const [mapAddress, setMapAddress] = useState('');
+  const [address, setAddress] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [error, setError] = useState(null);
 
   const handleInputChange = async (event) => {
     const inputAddress = event.target.value;
     setAddress(inputAddress);
-    if (inputAddress !== '') {
+    if (inputAddress.trim() !== "") {
       // Fetch address from Nominatim API
       try {
-        const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${inputAddress}&format=json&addressdetails=1`);
+        const response = await fetch(
+          `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
+            inputAddress
+          )}&format=json&addressdetails=1`
+        );
         if (response.ok) {
           const data = await response.json();
           setSearchResults(data);
+          setError(null); // Reset error state
         } else {
-          console.error('Failed to fetch address');
+          setError("Failed to fetch address");
           setSearchResults([]);
         }
       } catch (error) {
-        console.error('Error fetching address:', error);
+        console.error("Error fetching address:", error);
+        setError("Error fetching address");
         setSearchResults([]);
       }
     } else {
@@ -31,13 +39,11 @@ function MapWithAddress() {
 
   const handleSelectAddress = (selectedAddress) => {
     setAddress(selectedAddress);
-    setMapAddress(selectedAddress);
     setSearchResults([]);
   };
 
   return (
     <div className="map-with-address-container">
-      <h2>Map with Address</h2>
       <div className="input-container">
         <input
           type="text"
@@ -56,10 +62,10 @@ function MapWithAddress() {
             </div>
           ))}
         </div>
+        {error && <p className="error-message">{error}</p>}
+        {/* <MapView address={address} /> */}
       </div>
-      <div className="map-container">
-        <p className="map-address">Map Address: {mapAddress}</p>
-      </div>
+      
     </div>
   );
 }

@@ -1,0 +1,13 @@
+/* Container for the map */
+.map-view-container {
+    width: 100%;
+    height: 400px; /* Adjust height as needed */
+    border: 1px solid #970000;
+}
+
+/* Styling for the map element */
+.map-view {
+    width: 100%;
+    height: 100%;
+    background-color: #970000;
+}

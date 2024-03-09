@@ -26,9 +26,9 @@ function LoginForm() {
         // Authentication successful
         const data = await response.json();
 
-        const { role } = data;
-        console.log(role);
+        const { id, role } = data.data;
         localStorage.setItem('role', role);
+        localStorage.setItem('userId', id);
         // Redirect based on user role
         if (role === "member") {
           // history.push('/member-dashboard');
