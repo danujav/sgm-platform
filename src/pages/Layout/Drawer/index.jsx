@@ -131,9 +131,14 @@ export default function MiniDrawer() {
       to: "/update-gyms",
     },
     {
-      text: "Delete Gym",
+      text: "Find",
       icon: <ShoppingCartIcon />,
-      to: "/delete-gyms",
+      to: "/find-nearest-gym",
+    },
+    {
+      text: "Payment",
+      icon: <KitesurfingIcon />,
+      to: "/payments",
     },
   ];
 
@@ -185,7 +190,7 @@ export default function MiniDrawer() {
               <MenuIcon />
             </IconButton>
             <Typography variant="h5" noWrap component="div">
-              Up Keep
+              Share Gym MemberShip Platform
             </Typography>
           </Box>
           <Box sx={{ flexGrow: 0 }}>
@@ -244,7 +249,7 @@ export default function MiniDrawer() {
               if (userRole === "owner") {
                 return ["Dashboard", "Add Gym", "Update Gym"].includes(page.text);
               } else if (userRole === "member") {
-                return ["Dashboard", "Delete Gym"].includes(page.text);
+                return ["Find", "Payment"].includes(page.text);
               }
               return true; // Return true for items visible to both owner and member
             })

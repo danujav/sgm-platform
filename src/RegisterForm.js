@@ -12,6 +12,7 @@ function RegisterForm() {
   const [email, setEmail] = useState("");
   const [gymLocation, setGymLocation] = useState("");
   const [gymPhotos, setGymPhotos] = useState([]);
+  const [profilePic, setProfilePic] = useState([]);
   const [gymCategory, setGymCategory] = useState("normal");
   const [password, setPassword] = useState("");
 
@@ -26,6 +27,24 @@ function RegisterForm() {
         photosArray.push(reader.result);
         if (photosArray.length === files.length) {
           setGymPhotos(photosArray);
+        }
+      };
+      reader.onerror = (error) => {
+        console.error("Error: ", error);
+      };
+    }
+  };
+
+  const handleProfileFileUpload = (e) => {
+    const files = e.target.files;
+    const photosArray = [];
+    for (let i = 0; i < files.length; i++) {
+      const reader = new FileReader();
+      reader.readAsDataURL(files[i]);
+      reader.onload = () => {
+        photosArray.push(reader.result);
+        if (photosArray.length === files.length) {
+          setProfilePic(photosArray);
         }
       };
       reader.onerror = (error) => {
@@ -53,6 +72,7 @@ function RegisterForm() {
       gymLocation,
       gymPhotos,
       password,
+      profilePic
     };
 
     console.log(userData);
@@ -206,6 +226,15 @@ function RegisterForm() {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
+            <div className="form-group">
+              <label htmlFor="profile-pricutre">Profile Picture</label>
+              <input
+                type="file"
+                id="profilePicture"
+                multiple
+                onChange={handleProfileFileUpload}
+              />
+            </div>
           </>
         )}
         {userType === "member" && (
@@ -271,6 +300,15 @@ function RegisterForm() {
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="profile-pricutre">Profile Picture</label>
+              <input
+                type="file"
+                id="profilePicture"
+                multiple
+                onChange={handleProfileFileUpload}
               />
             </div>
           </>

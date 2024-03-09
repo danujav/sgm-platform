@@ -5,6 +5,12 @@
     height: 100vh;
     background-color: #f0f0f0; /* Set the background color */
   }
+
+  .register-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   
   .login-form {
     background-color: #ffffff; /* Background color of the form */

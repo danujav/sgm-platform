@@ -1,0 +1,42 @@
+.map-with-address-container {
+    font-family: Arial, sans-serif;
+  }
+  
+  .input-container {
+    margin-bottom: 10px;
+  }
+  
+  input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .address-options {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .address-option {
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .address-option:hover {
+    background-color: #f4f4f4;
+  }
+  
+  .map-container {
+    margin-top: 10px;
+  }
+  
+  .map-address {
+    font-size: 16px;
+  }
+  

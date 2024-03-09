@@ -12,13 +12,14 @@ import RegisterForm from "./RegisterForm";
 import MemberDashboardForm from "./MemberDashboardForm";
 import UpdateGymForm from "./UpdateGymForm";
 import AddGymForm from "./AddGymForm";
-import DeleteGymForm from "./DeleteGymForm";
 
 import Home from "../src/pages/Dashboard";
 
 import MiniDrawer from "../src/pages/Layout/Drawer";
 import NoMatch from "../src/pages/404Page";
 import Supplier from "../src/pages/Supplier";
+import PaymentForm from "./PaymentForm";
+import FindNearestForm from "./FindNearestForm";
 
 function App() {
   const navigate = useNavigate();
@@ -40,9 +41,9 @@ function App() {
       >
         <Route index element={<Home />} />
         <Route path="/add-gyms" element={<AddGymForm />} />
-        <Route path="/delete-gyms" element={<DeleteGymForm />} />
+        <Route path="/find-nearest-gym" element={<FindNearestForm />} />
         <Route path="/update-gyms" element={<UpdateGymForm />} />
-        
+        <Route path="/payments" element={<PaymentForm />} />
         <Route path="*" element={<NoMatch />} />
       </Route>
     </Routes>
