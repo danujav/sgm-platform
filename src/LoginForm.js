@@ -28,16 +28,16 @@ function LoginForm() {
 
         const { role } = data;
         console.log(role);
-        localStorage.setItem('userRole', role);
+        localStorage.setItem('role', role);
         // Redirect based on user role
         if (role === "member") {
           // history.push('/member-dashboard');
           console.log("navigate to the member");
-          navigate("/member-dashboard");
+          navigate("/");
         } else if (role === "owner") {
           console.log("navigate to the owner");
           // history.push('/owner-dashboard');
-          navigate("/owner-dashboard");
+          navigate("/");
         }
       } else {
         // Authentication failed

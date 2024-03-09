@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import GymAddForm from "./AddGymForm";
-import GymUpdateForm from "./GymUpdateForm";
+import GymUpdateForm from "./UpdateGymForm";
 import './OwnerDashboard.css'; // Import the CSS file for styling
 
 function OwnerDashboard() {

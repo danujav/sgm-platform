@@ -120,19 +120,19 @@ export default function MiniDrawer() {
             to: '/'
         },
         {
-            text: 'Products',
+            text: 'Add Gym',
             icon: <CategoryIcon />,
-            to: '/products',
+            to: '/add-gyms',
         },
         {
-            text: 'Suppliers',
+            text: 'Update Gym',
             icon: <KitesurfingIcon />,
-            to: '/suppliers',
+            to: '/update-gyms',
         },
         {
-            text: 'Orders',
+            text: 'Delete Gym',
             icon: <ShoppingCartIcon />,
-            to: '/orders',
+            to: '/delete-gyms',
         }
     ]
 
@@ -147,7 +147,7 @@ export default function MiniDrawer() {
         },
         {
             text: 'Log out',
-            to: '/logout'
+            to: '/login'
         }
     ]
 
@@ -156,6 +156,7 @@ export default function MiniDrawer() {
     };
 
     const handleCloseUserMenu = () => {
+        localStorage.removeItem("role");
         setAnchorElUser(null);
     };
 
