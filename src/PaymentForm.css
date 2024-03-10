@@ -1,0 +1,53 @@
+.payment-form-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .payment-form-container form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .payment-form-container label {
+    margin-bottom: 5px;
+  }
+  
+  .payment-form-container .card-element-container {
+    margin-bottom: 15px;
+  }
+  
+  .payment-form-container .card-element {
+    height: 40px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .payment-form-container .error-message {
+    color: red;
+    margin-top: 5px;
+  }
+  
+  .payment-form-container button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .payment-form-container button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .payment-form-container button:hover {
+    background-color: #0056b3;
+  }
+  

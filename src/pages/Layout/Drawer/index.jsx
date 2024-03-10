@@ -32,6 +32,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 
 import { Outlet, Link } from "react-router-dom";
+import PaymentForm from "../../../PaymentForm";
 
 const drawerWidth = 240;
 

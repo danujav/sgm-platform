@@ -18,16 +18,14 @@ function GymUpdateForm() {
   useEffect(() => {
     const id = localStorage.getItem("userId");
     setUserId(id);
-  
+
     const fetchGyms = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:3001/gyms?userId=${id}`
-        );
+        const response = await fetch(`http://localhost:3001/gyms?userId=${id}`);
         if (response.ok) {
           const data = await response.json();
           setGyms(data);
-          console.log(data, 'data');
+          console.log(data, "data");
         } else {
           console.error("Failed to fetch gyms data");
         }
@@ -35,12 +33,12 @@ function GymUpdateForm() {
         console.error("Error fetching gyms:", error);
       }
     };
-  
+
     if (id) {
       fetchGyms();
     }
   }, []);
-  
+
   return (
     <div>
       <h2>Gym Update Form</h2>

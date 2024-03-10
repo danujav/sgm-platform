@@ -33,7 +33,7 @@ function LoginForm() {
         if (role === "member") {
           // history.push('/member-dashboard');
           console.log("navigate to the member");
-          navigate("/");
+          navigate("/find-nearest-gym");
         } else if (role === "owner") {
           console.log("navigate to the owner");
           // history.push('/owner-dashboard');
